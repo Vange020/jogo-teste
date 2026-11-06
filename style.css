@@ -1,0 +1,556 @@
+/* ===== Global ===== */
+:root {
+    --tinta: #1e2235;
+    --fundo: #f6f5f2;
+    --branco: #ffffff;
+    --borda: #ded8cb;
+    --cinza: #969ca5;
+    --contexto: #2b6cd9;
+    --persona: #7c4dbf;
+    --tarefa: #e88014;
+    --formato: #2e9e5b;
+    --etica: #d63e4c;
+    --suave: #6e7280;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    font-family: "Inter", "Segoe UI", Arial, sans-serif;
+    color: var(--tinta);
+    background-color: var(--fundo);
+    line-height: 1.4;
+    overscroll-behavior: none;
+}
+
+/* área segura: fica longe do entalhe do celular e das barras do navegador */
+#app {
+    height: 100dvh;
+    padding: max(8px, env(safe-area-inset-top)) max(8px, env(safe-area-inset-right)) max(8px, env(safe-area-inset-bottom)) max(8px, env(safe-area-inset-left));
+}
+
+[hidden] {
+    display: none !important;
+}
+
+.sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+}
+
+h1 {
+    font-size: 1.8rem;
+    font-weight: 900;
+    line-height: 1.1;
+}
+
+h2 {
+    font-size: 1.15rem;
+    line-height: 1.2;
+}
+
+h3 {
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--suave);
+    margin-top: 6px;
+}
+
+h3 small {
+    text-transform: none;
+    letter-spacing: 0;
+    font-weight: 500;
+}
+
+.ajuda {
+    font-size: 0.85rem;
+    color: #4a4f60;
+}
+
+.aviso {
+    font-size: 0.85rem;
+    color: var(--etica);
+    min-height: 1.2em;
+}
+
+.rotulo {
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--suave);
+}
+
+/* ===== Telas ===== */
+.tela {
+    height: 100%;
+}
+
+.tela-centro {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow-y: auto;
+}
+
+.caixa {
+    width: min(520px, 100%);
+    max-height: 100%;
+    overflow-y: auto;
+    background-color: var(--branco);
+    border-radius: 18px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    box-shadow: 0 4px 18px rgba(30, 34, 53, 0.08);
+}
+
+label {
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+input[type="text"] {
+    width: 100%;
+    font: inherit;
+    font-size: 1rem;
+    padding: 12px;
+    border: 2px solid var(--borda);
+    border-radius: 12px;
+}
+
+input[type="text"]:focus {
+    outline: none;
+    border-color: var(--contexto);
+}
+
+.linha-entrar {
+    display: flex;
+    gap: 8px;
+}
+
+.linha-entrar input {
+    flex: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-weight: 800;
+}
+
+.pilha {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* ===== Botões ===== */
+.botao {
+    min-height: 48px;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 999px;
+    background-color: var(--tinta);
+    color: var(--branco);
+    font: inherit;
+    font-weight: 800;
+    cursor: pointer;
+    transition: transform 0.1s, opacity 0.2s;
+}
+
+.botao:active {
+    transform: scale(0.97);
+}
+
+.botao:disabled,
+.botao.apagado {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.botao-azul { background-color: var(--contexto); }
+.botao-roxo { background-color: var(--persona); }
+.botao-verde { background-color: var(--formato); }
+.botao-vermelho { background-color: var(--etica); }
+.botao-cinza { background-color: var(--cinza); }
+
+.botao-redondo {
+    width: 48px;
+    height: 48px;
+    border: none;
+    border-radius: 50%;
+    background-color: rgba(30, 34, 53, 0.85);
+    color: var(--branco);
+    font: inherit;
+    font-size: 1.5rem;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.botao-tudo {
+    width: auto;
+    padding: 0 14px;
+    border-radius: 999px;
+    font-size: 0.9rem;
+}
+
+/* ===== Sala ===== */
+.codigo-grande {
+    font-size: 2.6rem;
+    font-weight: 900;
+    letter-spacing: 0.25em;
+    text-align: center;
+}
+
+.assentos {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.assentos li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    min-height: 46px;
+    padding: 6px 12px;
+    border-radius: 12px;
+    background-color: var(--fundo);
+    font-weight: 700;
+}
+
+.assentos li .botao {
+    min-height: 36px;
+    padding: 4px 12px;
+    font-size: 0.8rem;
+}
+
+.bolinha {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+/* ===== Jogo ===== */
+.tela-jogo {
+    display: flex;
+    gap: 8px;
+}
+
+.area-tabuleiro {
+    position: relative;
+    flex: 1;
+    min-width: 0;
+    min-height: 0;
+    background-color: var(--branco);
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+#tabuleiro {
+    width: 100%;
+    height: 100%;
+    display: block;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+#tabuleiro .tampinha {
+    cursor: pointer;
+}
+
+.zoom {
+    position: absolute;
+    left: 10px;
+    bottom: 10px;
+    display: flex;
+    gap: 6px;
+}
+
+.abrir-painel {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.painel {
+    width: 34%;
+    max-width: 400px;
+    min-width: 280px;
+    background-color: var(--branco);
+    border-radius: 14px;
+    padding: 12px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.abas {
+    display: none;
+    gap: 6px;
+}
+
+.aba {
+    flex: 1;
+    min-height: 44px;
+    border: none;
+    border-radius: 10px;
+    background-color: var(--cinza);
+    color: var(--branco);
+    font: inherit;
+    font-weight: 800;
+    font-size: 0.85rem;
+    cursor: pointer;
+}
+
+.aba.ativa {
+    background-color: var(--tinta);
+}
+
+.aba-esconder {
+    flex: 0 0 44px;
+}
+
+.bloco {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.cartas {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.carta {
+    width: 44px;
+    height: 56px;
+    border: none;
+    border-radius: 8px;
+    color: var(--branco);
+    font: inherit;
+    font-size: 1.3rem;
+    font-weight: 900;
+    cursor: pointer;
+}
+
+.carta:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.mao li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 0.8rem;
+    font-weight: 800;
+}
+
+.mao .carta {
+    cursor: default;
+}
+
+.cor-contexto { background-color: var(--contexto); }
+.cor-persona { background-color: var(--persona); }
+.cor-tarefa { background-color: var(--tarefa); }
+.cor-formato { background-color: var(--formato); }
+.cor-etica { background-color: var(--etica); }
+.cor-coringa { background: linear-gradient(135deg, var(--contexto), var(--persona), var(--tarefa), var(--formato), var(--etica)); }
+
+.minhas {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.minhas li {
+    padding: 8px 10px;
+    border-radius: 10px;
+    background-color: var(--fundo);
+    font-size: 0.8rem;
+}
+
+.minhas li.completa {
+    background-color: #eef8f1;
+}
+
+.minhas strong {
+    display: block;
+    font-size: 0.9rem;
+}
+
+.dica {
+    color: var(--persona);
+    font-weight: 700;
+}
+
+.placar {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.registro {
+    padding-left: 18px;
+    font-size: 0.8rem;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+/* ===== Janelas ===== */
+.janela {
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: max(12px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) max(12px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
+    background-color: rgba(0, 0, 0, 0.45);
+}
+
+.caixa-janela {
+    max-height: 100%;
+}
+
+.caixa-larga {
+    width: min(860px, 100%);
+}
+
+.opcoes-missoes {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.opcao-missao {
+    width: 100%;
+    text-align: left;
+    border: 3px solid var(--formato);
+    border-radius: 12px;
+    background-color: #eef8f1;
+    padding: 10px;
+    font: inherit;
+    color: var(--tinta);
+    cursor: pointer;
+}
+
+.opcao-missao.devolver {
+    border-color: var(--borda);
+    background-color: #eeeeee;
+}
+
+.opcao-missao small {
+    display: block;
+    color: var(--suave);
+}
+
+.tabela-fim {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+}
+
+.tabela-fim th,
+.tabela-fim td {
+    padding: 6px 4px;
+    border-bottom: 1px solid var(--borda);
+    text-align: center;
+}
+
+.tabela-fim th:first-child,
+.tabela-fim td:first-child {
+    text-align: left;
+}
+
+.tabela-fim tr.vencedor td {
+    background-color: #eef8f1;
+    font-weight: 800;
+}
+
+/* ===== Celular e janelas pequenas ===== */
+@media (max-width: 900px), (max-height: 560px) {
+    h1 {
+        font-size: 1.4rem;
+    }
+
+    .caixa {
+        padding: 14px;
+    }
+
+    .abas {
+        display: flex;
+    }
+
+    /* no celular, só a aba escolhida aparece */
+    .painel[data-aba-atual="jogada"] .bloco:not([data-aba="jogada"]),
+    .painel[data-aba-atual="missoes"] .bloco:not([data-aba="missoes"]),
+    .painel[data-aba-atual="placar"] .bloco:not([data-aba="placar"]) {
+        display: none;
+    }
+
+    .painel {
+        min-width: 0;
+        width: 42%;
+        padding: 8px;
+    }
+
+    .botao {
+        min-height: 50px;
+    }
+}
+
+/* celular em pé: tabuleiro em cima, painel embaixo */
+@media (max-width: 600px) and (orientation: portrait) {
+    .tela-jogo {
+        flex-direction: column;
+    }
+
+    .area-tabuleiro {
+        flex: 1 1 55%;
+    }
+
+    .painel {
+        width: 100%;
+        max-width: none;
+        flex: 1 1 45%;
+    }
+
+    .aba-esconder {
+        display: none;
+    }
+}
+
+/* painel escondido: tabuleiro na tela toda */
+.tela-jogo.sem-painel .painel {
+    display: none;
+}

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#1e2235">
+    <title>Expresso do Prompt · Jogo online</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main id="app">
+        <!-- 1. Menu -->
+        <section id="tela-menu" class="tela tela-centro">
+            <article class="caixa">
+                <h1>EXPRESSO DO PROMPT</h1>
+                <p class="ajuda">Jogo online para testar a distância. A Hora do Prompt é fora do jogo, com o professor.</p>
+                <label for="nome">Seu nome (ou da equipe)</label>
+                <input type="text" id="nome" maxlength="18" placeholder="Ex.: Equipe Azul" autocomplete="off">
+                <button type="button" id="botao-criar" class="botao">Criar partida</button>
+                <form id="form-entrar" class="linha-entrar">
+                    <label for="codigo" class="sr">Código da partida</label>
+                    <input type="text" id="codigo" maxlength="5" placeholder="CÓDIGO" autocomplete="off" autocapitalize="characters">
+                    <button type="submit" class="botao botao-azul">Entrar</button>
+                </form>
+                <button type="button" id="botao-sozinho" class="botao botao-cinza">Jogar só com bots (sem internet)</button>
+                <p id="menu-aviso" class="aviso" role="status"></p>
+            </article>
+        </section>
+
+        <!-- 2. Sala de espera -->
+        <section id="tela-sala" class="tela tela-centro" hidden>
+            <article class="caixa">
+                <p class="rotulo">Código da partida</p>
+                <p id="sala-codigo" class="codigo-grande">-----</p>
+                <p class="ajuda" id="sala-dica">Mande o código (ou o link) para os colegas. De 2 a 5 jogadores; faltou gente, complete com bots.</p>
+                <button type="button" id="botao-copiar" class="botao botao-cinza">Copiar link da partida</button>
+                <ol id="sala-assentos" class="assentos"></ol>
+                <section id="sala-botoes" class="pilha"></section>
+                <button type="button" id="botao-sair-sala" class="botao botao-cinza">Sair da sala</button>
+            </article>
+        </section>
+
+        <!-- 3. Jogo -->
+        <section id="tela-jogo" class="tela tela-jogo" hidden>
+            <figure id="area-tabuleiro" class="area-tabuleiro">
+                <svg id="tabuleiro" viewBox="0 0 1032 944" role="img" aria-label="Tabuleiro do Expresso do Prompt"></svg>
+                <nav class="zoom" aria-label="Zoom do tabuleiro">
+                    <button type="button" id="zoom-menos" class="botao-redondo" aria-label="Diminuir">−</button>
+                    <button type="button" id="zoom-mais" class="botao-redondo" aria-label="Aumentar">+</button>
+                    <button type="button" id="zoom-tudo" class="botao-redondo botao-tudo">Tudo</button>
+                </nav>
+                <button type="button" id="botao-abrir-painel" class="botao abrir-painel" hidden>◀ Painel</button>
+            </figure>
+
+            <aside id="painel" class="painel" data-aba-atual="jogada">
+                <nav class="abas" aria-label="Partes do painel">
+                    <button type="button" class="aba ativa" data-aba="jogada">Jogada</button>
+                    <button type="button" class="aba" data-aba="missoes">Missões</button>
+                    <button type="button" class="aba" data-aba="placar">Placar</button>
+                    <button type="button" class="aba aba-esconder" id="botao-esconder" aria-label="Esconder painel">▶</button>
+                </nav>
+
+                <section class="bloco" data-aba="jogada">
+                    <h2 id="vez-nome">Vez de…</h2>
+                    <p id="aviso" class="aviso" role="status"></p>
+                    <h3>A · Plataforma <small>(toque para comprar)</small></h3>
+                    <ul id="plataforma" class="cartas"></ul>
+                    <button type="button" id="botao-monte" class="botao">Comprar do monte</button>
+                    <button type="button" id="botao-missoes" class="botao botao-roxo">C · Pegar 2 Missões</button>
+                    <button type="button" id="botao-passar" class="botao botao-cinza" hidden>Passar a vez (não há cartas para comprar)</button>
+                    <p class="ajuda">B · Toque nos círculos de um trilho para construir.</p>
+                    <h3>Sua mão</h3>
+                    <ul id="mao" class="cartas mao"></ul>
+                </section>
+
+                <section class="bloco" data-aba="missoes">
+                    <h3>Suas Missões</h3>
+                    <ul id="minhas" class="minhas"></ul>
+                </section>
+
+                <section class="bloco" data-aba="placar">
+                    <h3>Placar</h3>
+                    <ul id="placar" class="placar"></ul>
+                    <h3>Registro</h3>
+                    <ol id="registro" class="registro"></ol>
+                    <button type="button" id="botao-sair-jogo" class="botao botao-cinza">Sair da partida</button>
+                </section>
+            </aside>
+        </section>
+    </main>
+
+    <!-- Janelas -->
+    <section id="janela-missoes" class="janela" hidden>
+        <article class="caixa caixa-janela">
+            <h2>Escolha suas Missões <small>(fique com pelo menos 1)</small></h2>
+            <ul id="opcoes-missoes" class="opcoes-missoes"></ul>
+            <button type="button" id="botao-confirmar-missoes" class="botao">Confirmar</button>
+        </article>
+    </section>
+
+    <section id="janela-pagar" class="janela" hidden>
+        <article class="caixa caixa-janela">
+            <h2 id="pagar-titulo">Construir</h2>
+            <ul id="opcoes-pagar" class="pilha"></ul>
+            <button type="button" id="botao-cancelar-pagar" class="botao botao-cinza">Cancelar</button>
+        </article>
+    </section>
+
+    <section id="janela-fim" class="janela" hidden>
+        <article class="caixa caixa-janela caixa-larga">
+            <h2 id="fim-titulo">Fim dos trilhos</h2>
+            <p class="ajuda">Pontos dos trilhos e das Missões. A Hora do Prompt é com o professor: some os pontos de prompt e o Prompt de Ouro ao total.</p>
+            <table class="tabela-fim">
+                <thead>
+                    <tr><th>Jogador</th><th>Trilhos</th><th>Missões +</th><th>Missões −</th><th>Maior Expresso</th><th>Total</th></tr>
+                </thead>
+                <tbody id="fim-linhas"></tbody>
+            </table>
+            <section id="fim-botoes" class="pilha"></section>
+        </article>
+    </section>
+
+    <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+    <script src="dados.js"></script>
+    <script src="regras.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
